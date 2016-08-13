@@ -17,8 +17,8 @@ import br.edu.ifce.maker.Topico
 import br.edu.ifce.maker.MidiaTextual
 import br.edu.ifce.maker.MidiaBinaria
 import br.edu.ifce.maker.Midia
-import br.edu.ifce.services.MakerGrammarAccess.MidiaBinariaElements
 import br.edu.ifce.maker.Texto
+import br.edu.ifce.maker.Link
 
 /**
  * Generates code from your model files on save.
@@ -36,7 +36,7 @@ class MakerGenerator extends AbstractGenerator {
 			this.generateCursoIndexPage(curso, fsa)
 			
 			for(modulo : curso.modulos) {
-				this.dirPath.add(modulo.name)
+				this.dirPath.add(snakefy(modulo.name))
 				this.generateModuloIndexPage(modulo, fsa)
 				
 				for(aula : modulo.aulas) {
@@ -95,12 +95,20 @@ class MakerGenerator extends AbstractGenerator {
 	def compile(Curso curso) {
 		'''
 		<html>
+		
+		<head>
+			<title>«curso.name»</title>
+		</head>
+		
+		<body>
 			<h1> «curso.name» </h1>
 			<h3> «curso.instituicao.value» </h3>
 			«IF curso.descricao != null»
 			<p> «curso.descricao.value» </p>
 			«ENDIF»
 			<p> Quantidade de Módulos: «curso.modulos.size» </p>
+		</body>
+		
 		</html>
 		'''
 	}
@@ -108,11 +116,16 @@ class MakerGenerator extends AbstractGenerator {
 	def compile(Modulo modulo) {
 		'''
 		<html>
+		<head>
+			<title>«modulo.name»</title>
+		</head>
+		<body>
 			<h1> «modulo.name» </h1>
 			«IF modulo.descricao != null»
 			<p> «modulo.descricao.value» </p>
 			«ENDIF»
 			<p> Quantidade de Aulas: «modulo.aulas.size» </p>
+		</body>
 		</html>
 		'''
 	}
@@ -120,11 +133,15 @@ class MakerGenerator extends AbstractGenerator {
 	def compile(Aula aula) {
 		'''
 		<html>
+		<head>
+			<title>«aula.name»</title>
+		</head>
+		<body>
 			<h1> «aula.name» </h1>
 			«IF aula.descricao != null»
 			<p> «aula.descricao.value» </p>
 			«ENDIF»
-			
+		
 			«FOR autor : aula.autores»
 			<label> Autor: «autor.nome» </label>
 			«IF autor.email != null»
@@ -132,27 +149,43 @@ class MakerGenerator extends AbstractGenerator {
 			<label> «autor.email» </label>
 			«ENDIF»
 			«ENDFOR»
-			
+		
 			«FOR secao : aula.secoes»
 			«secao.compile()»
 			«ENDFOR»
+		</body>
 		</html>
+		'''
+	}
+	
+	def compile(Topico topico) {
+		'''
+		<section>
+			<h2> «topico.name» </h2>
+			<hr>
+			«FOR midia : topico.midias»
+			«midia.compile()»
+			«ENDFOR»
+		</section>
+		'''
+	}
+	
+	def compile(Texto texto) {
+		'''
+		<p> «texto.value» </p>
+		'''
+	}
+	
+	def compile(Link link) {
+		'''
+		<a href="«link.fonte»">«link.titulo»</a>
 		'''
 	}
 	
 	def compile (Secao secao) {
 		if (secao instanceof Topico) {
 			val topico = secao as Topico
-			
-			'''
-			<section>
-				<label> «topico.name» </label>
-				
-				«FOR midia : topico.midias»
-				<div> «midia.compile()» </div>
-				«ENDFOR»
-			</section>
-			'''
+			topico.compile()	
 		}
 		else {
 			''
@@ -175,16 +208,14 @@ class MakerGenerator extends AbstractGenerator {
 			val texto = midiaTextual as Texto
 			texto.compile()
 		}
+		else {
+			val link = midiaTextual as Link
+			link.compile()
+		}
 	}
 	
 	def compile(MidiaBinaria midiaBinaria) {
 		'''
-		'''
-	}
-	
-	def compile(Texto texto) {
-		'''
-		<p> «texto.value» </p>
 		'''
 	}
 }

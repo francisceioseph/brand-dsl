@@ -74,7 +74,7 @@ Texto:
 ;
 
 Link: 
-	'link' ':' 
+	'link'
 		titulo = STRING ','
 		fonte  = STRING 
 ;
