@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ioseph.francis.brand
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: ioseph.francis.brand; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib,
+ org.antlr.runtime,
+ org.eclipse.xtext.util,
+ org.eclipse.xtend.lib,
+ org.eclipse.emf.common
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: ioseph.francis.validation,
+ ioseph.francis.brand.impl,
+ ioseph.francis.brand.util,
+ ioseph.francis,
+ ioseph.francis.brand,
+ ioseph.francis.parser.antlr.internal,
+ ioseph.francis.scoping,
+ ioseph.francis.services,
+ ioseph.francis.generator,
+ ioseph.francis.serializer,
+ ioseph.francis.parser.antlr
+Import-Package: org.apache.log4j

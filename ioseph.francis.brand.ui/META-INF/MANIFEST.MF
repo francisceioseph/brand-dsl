@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ioseph.francis.brand.ui
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: ioseph.francis.brand.ui; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: ioseph.francis.brand,
+ ioseph.francis.brand.ide,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ org.eclipse.ui.editors;bundle-version="3.5.0",
+ org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.ui,
+ org.eclipse.compare,
+ org.eclipse.xtext.builder,
+ org.eclipse.xtend.lib;resolution:=optional,
+ org.eclipse.xtext.xbase.lib
+Import-Package: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: ioseph.francis.ui.contentassist,
+ ioseph.francis.brand.ui.internal,
+ ioseph.francis.ui.quickfix
+Bundle-Activator: ioseph.francis.brand.ui.internal.BrandActivator
