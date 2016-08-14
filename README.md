@@ -1,6 +1,6 @@
-#MaKeR DSL
+#Brand DSL
 
-Este é o repositório da MaKeR DSL, o meu Projeto de Conclusão de Curso de Engenharia de 
+Este é o repositório da Brand DSL, o meu Projeto de Conclusão de Curso de Engenharia de 
 Computação do Intituto Federal de Educação, Ciência e Tecnologia do Ceará. 
 
 
