@@ -1,0 +1,81 @@
+curso 'Artificial Intelligence' {
+	descricao  'Welcome to the archived materials from the Fall 2013 CS188 Artificial Intelligence 
+				on-campus offering at UC Berkeley. These materials are made available for anyone for self-study, 
+				but there will be no active support from the teaching staff for these materials. We do hope to offer 
+				this course with active support again in the future. Instructors in particular might 
+				also want to check out ai.berkeley.edu, where we host all of our materials for instructors.'
+	instituicao 'edX'
+	
+	modulo 'Week 01' {
+		descricao 'Guidelines'
+		
+		aula 'Introduction (Edited)' {
+			autor 'Ted L. Taylor', 'taylors@edx.com'
+			
+			topico 'Outline' {
+				"Welcome to CS 188. Today what we'll be doing is talking about what
+				artificial intelligence actually is--you just signed up for course for it, what are
+				you going to get."
+				
+				"We're going to talk about what AI can actually do, today."
+				
+				link 'Google', 'http://w ww.google.com'  
+			} 
+			
+			topico 'Sci-Fi AI?' {
+				"First, let's think about the dream. Let's think about
+				what our kind of popular culture has depicted artificial intelligence as
+				in the movies over time." 
+				
+				"So it's possible you've seen some of these movies.
+				Does anybody recognize this?"
+				
+				"Who's the tall yellow one?
+				That's C-3PO. What does C-3PO do?"
+				
+			}
+			
+			topico 'What is AI?' {
+				"Let's talk about what AI actually is."
+				 
+				"So, what is AI--well
+				actually this is a big discussion we have to have
+				as a field--what is AI? Well, we're going to be building machines, software,
+				you know, that does something."
+				
+				"What's our goal, what does it mean to build an artificial intelligence."
+			}
+			 
+			topico 'What About the Brain?' {
+				"And so you say, what about the brain? I mean we're engineers right. We want to build something."
+				
+				"We want to build something that's intelligent. It'd be a little silly to ignore the fact that we"
+				
+				"Actually have a working prototype, and we're trying to do this really hard thing. 
+				We should look at the prototype."
+				
+				"And you know human minds are not "
+			}  
+			
+			topico 'A  (Short) History of AI' { 
+				imagem '../../../res/brain.jpeg', 200 por 200
+			}
+			
+			topico 'A funny demo video' {
+				video  '../../../res/video.mp4', 300 por 300	
+			}
+		}  
+		
+//		aula 'Introduction (Live)' {
+//			
+//		}
+//		
+//		aula 'Math Self Diagnostic' {
+//			
+//		}
+//		
+//		aula 'UNIX Python Tutorial' {
+//			
+//		}
+	}
+}
