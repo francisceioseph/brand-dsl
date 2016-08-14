@@ -1,0 +1,129 @@
+grammar br.edu.ifce.Maker with org.eclipse.xtext.common.Terminals
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate maker "http://www.edu.br/ifce/Maker"
+
+Curso:
+	'curso' name=STRING '{'
+		(descricao = Descricao)?
+		
+		instituicao = Instituicao
+		modulos += Modulo*
+	'}'	
+;
+
+Modulo: 
+	'modulo' name = STRING '{'
+		(descricao = Descricao)?
+		aulas += Aula*
+	'}'
+;
+
+Aula: 
+	'aula' name = STRING '{'
+		(descricao = Descricao)?
+		autores += Autor*
+		secoes  += Secao*
+	'}'
+;
+
+Secao: 
+	Topico | Questionario
+;
+
+Questionario: 
+	'questionario' name = ID '{'
+		titulo = Titulo
+	    (descricao = Descricao)?
+	    questoes += Questao+
+	'}'
+;
+
+Questao:
+	'questao' name = ID '{'
+		cabecalho = STRING
+		opcoes += Opcao+
+	'}'
+;
+
+Opcao: 
+	name = ID
+	descricao = STRING
+;
+
+Topico:
+	'topico' name = STRING '{'
+		midias += Midia*
+	'}'
+;
+
+Midia: 
+	MidiaTextual | MidiaBinaria
+;
+
+MidiaTextual:
+	Texto | Link	
+;
+
+MidiaBinaria:
+	Imagem | Audio | Video | Animacao | Arquivo
+;
+
+Texto: 
+	value = STRING
+;
+
+Link: 
+	'link'
+		titulo = STRING ','
+		fonte  = STRING 
+;
+
+Imagem: 
+	'imagem'
+		path = STRING ','
+		(largura = INT 'por'
+		altura  = INT)?
+;
+
+Audio: 
+	'audio'
+		path = STRING
+		('de' comeco = INT 
+		'até' fim = INT)?
+;
+
+Video: 
+	'video'
+		path = STRING
+		('de' comeco = INT 
+		'até' fim = INT)?
+;
+
+Animacao: 
+	'animacao'
+		path = STRING
+;
+
+Arquivo: 
+	'arquivo'
+		path = STRING
+;
+
+Autor: 
+	'autor' 
+		nome = STRING
+		(',' email = STRING)?
+;
+
+Descricao:
+	'descricao' value=STRING
+;
+
+Titulo:
+	'titulo' value=STRING
+;
+
+Instituicao:
+	'instituicao' value=STRING
+;
