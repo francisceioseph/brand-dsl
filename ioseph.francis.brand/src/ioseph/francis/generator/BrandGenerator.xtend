@@ -5,6 +5,7 @@ package ioseph.francis.generator
 
 import ioseph.francis.brand.Aula
 import ioseph.francis.brand.Curso
+import ioseph.francis.brand.Imagem
 import ioseph.francis.brand.Link
 import ioseph.francis.brand.Midia
 import ioseph.francis.brand.MidiaBinaria
@@ -19,6 +20,10 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import ioseph.francis.brand.Video
+import ioseph.francis.brand.Audio
+import ioseph.francis.brand.Animacao
+import ioseph.francis.brand.Arquivo
 
 /**
  * Generates code from your model files on save.
@@ -27,34 +32,35 @@ import org.eclipse.xtext.generator.IGeneratorContext
  */
 class BrandGenerator extends AbstractGenerator {
 
-	val dirPath = new ArrayList<String>();
-	
+	val dirPath = new ArrayList<String>()
+		
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) { 
-		for (curso : resource.allContents.toIterable.filter(Curso)) {
+		
+		val curso = resource.allContents.toIterable.filter(Curso).head
+						
+		this.dirPath.add(snakefy(curso.name))
+		this.generateCursoIndexPage(curso, fsa)
 			
-			this.dirPath.add(snakefy(curso.name))
-			this.generateCursoIndexPage(curso, fsa)
-			
-			for(modulo : curso.modulos) {
-				this.dirPath.add(snakefy(modulo.name))
-				this.generateModuloIndexPage(modulo, fsa)
+		for(modulo : curso.modulos) {
+			this.dirPath.add(snakefy(modulo.name))
+			this.generateModuloIndexPage(modulo, fsa)
 				
-				for(aula : modulo.aulas) {
-					this.generateAulaPage(aula, fsa)
-				}
-				
-				this.dirPath.pop()
+			for(aula : modulo.aulas) {
+				this.generateAulaPage(aula, fsa)
 			}
-			
+				
 			this.dirPath.pop()
 		}
+			
+		this.dirPath.pop()	
+			
 	}
 	
 //	=============== Generation Methods ==================
 	
 	def generateCursoIndexPage(Curso curso, IFileSystemAccess2 fsa) {
 		val indexPageCursoPath = this.dirPath.pathfy() + 'index.html'
-		
+				
 		fsa.generateFile(indexPageCursoPath, curso.compile())
 	}
 	
@@ -157,6 +163,15 @@ class BrandGenerator extends AbstractGenerator {
 		</html>
 		'''
 	}
+	def compile (Secao secao) {
+		if (secao instanceof Topico) {
+			val topico = secao as Topico
+			topico.compile()	
+		}
+		else {
+			''
+		}
+	}
 	
 	def compile(Topico topico) {
 		'''
@@ -170,29 +185,7 @@ class BrandGenerator extends AbstractGenerator {
 		'''
 	}
 	
-	def compile(Texto texto) {
-		'''
-		<p> «texto.value» </p>
-		'''
-	}
-	
-	def compile(Link link) {
-		'''
-		<a href="«link.fonte»">«link.titulo»</a>
-		'''
-	}
-	
-	def compile (Secao secao) {
-		if (secao instanceof Topico) {
-			val topico = secao as Topico
-			topico.compile()	
-		}
-		else {
-			''
-		}
-	}
-	
-	def compile(Midia midia){
+	def compile(Midia midia){		
 		if (midia instanceof MidiaTextual) {
 			val midiaTextual = midia as MidiaTextual
 			midiaTextual.compile()
@@ -215,7 +208,70 @@ class BrandGenerator extends AbstractGenerator {
 	}
 	
 	def compile(MidiaBinaria midiaBinaria) {
+		
+		if (midiaBinaria instanceof Imagem) {
+			val imagem = midiaBinaria as Imagem
+			imagem.compile()
+		}
+		
+		else if (midiaBinaria instanceof Audio){
+			val audio = midiaBinaria as Audio
+			audio.compile()
+		}
+		else if (midiaBinaria instanceof Video) {
+			val video = midiaBinaria as Video
+			video.compile()
+		}
+		else if (midiaBinaria instanceof Animacao) {
+			val anim = midiaBinaria as Animacao
+			anim.compile()
+		}
+		else if (midiaBinaria instanceof Arquivo) {
+			val arquivo = midiaBinaria as Arquivo
+			arquivo.compile()
+		}
+		else {
+			''''''
+		}
+	}
+	
+	def compile(Texto texto) {
 		'''
+		<p> «texto.value» </p>
 		'''
 	}
+	
+	def compile(Link link) {
+		'''
+		<a href="«link.fonte»">«link.titulo»</a>
+		'''
+	}
+	
+	def compile(Imagem imagem) {		
+		'''
+		<img src="«imagem.path»" «IF imagem.largura != 0 && imagem.altura != 0» width="«imagem.largura»" height="«imagem.altura»""«ENDIF»/>'''	
+	}
+	
+	def compile(Audio audio) {
+		'''
+		<audio controls>
+		  <source src="«audio.path»">
+		Your browser does not support the audio element.
+		</audio>
+		'''
+	}
+	
+	def compile(Video video) {
+		'''
+		<video controls «IF video.largura != 0 && video.altura != 0» width="«video.largura»" height="«video.altura»" «ENDIF»>
+		  <source src="«video.path»" type="video/mp4">
+		Your browser does not support the video tag.
+		</video>
+		'''
+	}
+	
+	def compile(Animacao animacao) {
+		''''''
+	}
+		
 }

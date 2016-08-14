@@ -80,23 +80,22 @@ Link:
 
 Imagem: 
 	'imagem'
-		path = STRING ','
-		(largura = INT 'por'
+		path = STRING (','
+		largura = INT 'por'
 		altura  = INT)?
 ;
 
 Audio: 
 	'audio'
 		path = STRING
-		('de' comeco = INT 
-		'até' fim = INT)?
 ;
 
-Video: 
+Video:
 	'video'
-		path = STRING
-		('de' comeco = INT 
-		'até' fim = INT)?
+		path = STRING (','
+			altura  = INT 'por'
+			largura = INT
+		)?
 ;
 
 Animacao: 
